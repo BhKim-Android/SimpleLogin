@@ -9,7 +9,6 @@ pluginManagement {
         }
         mavenCentral()
         gradlePluginPortal()
-        includeBuild("build-logic")
     }
 }
 dependencyResolutionManagement {
@@ -17,6 +16,8 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+
+        includeBuild("build-logic")
     }
 }
 
