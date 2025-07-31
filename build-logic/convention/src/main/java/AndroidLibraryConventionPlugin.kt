@@ -1,26 +1,21 @@
-import com.android.build.gradle.AppPlugin
 import com.android.build.gradle.BasePlugin
 import com.kimbh.convention.configureAndroid
-import com.kimbh.convention.configureApplication
 import com.kimbh.convention.configureKotlin
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.withType
 
-class AndroidApplicationConventionPlugin : Plugin<Project> {
+class AndroidLibraryConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             with(pluginManager) {
-                apply("com.android.application")
+                apply("com.android.library")
                 apply("org.jetbrains.kotlin.android")
             }
 
             plugins.withType<BasePlugin>().configureEach {
                 configureAndroid()
                 configureKotlin()
-            }
-            plugins.withType<AppPlugin>().configureEach {
-                configureApplication()
             }
         }
     }

@@ -1,0 +1,23 @@
+import com.kimbh.convention.implementation
+import com.kimbh.convention.ksp
+import com.kimbh.convention.libs
+import org.gradle.api.Plugin
+import org.gradle.api.Project
+import org.gradle.kotlin.dsl.dependencies
+
+class AndroidHiltConventionPlugin : Plugin<Project> {
+    override fun apply(target: Project) {
+        with(target) {
+            with(pluginManager) {
+                apply("com.google.devtools.ksp")
+                apply("dagger.hilt.android.plugin")
+            }
+
+            dependencies {
+                // Hilt
+                implementation(libs.findLibrary("dagger-hilt-android"))
+                ksp(libs.findLibrary("dagger-hilt-compiler"))
+            }
+        }
+    }
+}

@@ -16,18 +16,44 @@ kotlin {
 
 dependencies {
     compileOnly(libs.android.gradlePlugin)
+    compileOnly(libs.compose.compiler.gradlePlugin)
     compileOnly(libs.kotlin.gradlePlugin)
+    compileOnly(libs.hilt.gradlePlugin)
 }
 
 gradlePlugin {
     plugins {
         register("androidApplication") {
-            id = "sixkids.android.application"
+            id = "kimbh.android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
-        register("TestPlugin") {
-            id = "a.b.c"
-            implementationClass = "TestPlugin"
+        register("androidApplicationCompose") {
+            id = "kimbh.android.application.compose"
+            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        }
+        register("androidLibrary") {
+            id = "kimbh.android.library"
+            implementationClass = "AndroidLibraryConventionPlugin"
+        }
+        register("androidLibraryCompose") {
+            id = "kimbh.android.library.compose"
+            implementationClass = "AndroidLibraryComposeConventionPlugin"
+        }
+        register("androidHilt") {
+            id = "kimbh.android.hilt"
+            implementationClass = "AndroidHiltConventionPlugin"
+        }
+        register("javaLibrary") {
+            id = "kimbh.java.library"
+            implementationClass = "JavaLibraryConventionPlugin"
+        }
+        register("androidVersionCatalogsLoader") {
+            id = "versions.loader"
+            implementationClass = "artifacts.AndroidVersionCatalogsLoaderPlugin"
+        }
+        register("androidVersionCatalogsChecker") {
+            id = "versions.checker"
+            implementationClass = "artifacts.AndroidVersionCatalogsCheckerPlugin"
         }
     }
 }
