@@ -23,3 +23,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "SimpleLogin"
 include(":app")
+include(":core-android")
+include(":data")
+include(":domain")
