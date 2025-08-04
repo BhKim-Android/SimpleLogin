@@ -9,4 +9,5 @@ plugins {
     alias(libs.plugins.ksp) apply false
     id("versions.loader")
     id("versions.checker") apply false
+    alias(libs.plugins.android.library) apply false
 }

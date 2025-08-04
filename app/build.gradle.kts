@@ -16,4 +16,5 @@ android {
 
 dependencies {
     implementation(project(":core-android"))
+    implementation(project(":sdk-auth"))
 }
