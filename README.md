@@ -26,3 +26,7 @@
 ├── auth-sdk # 간편 로그인 SDK 래핑 모듈 (재사용 라이브러리)
 ├── feature-auth # 로그인 화면 상태 관리(ViewModel 등), 비즈니스 흐름
 ├── ui-auth # Stateless Compose UI 컴포넌트 (재사용 가능 UI)</pre>
+
+
+## 개발일지 및 공부
+https://www.notion.so/197388df547e80ed902aca2d4fd1662f?v=246388df547e80e6bb93000cdea98cbf
