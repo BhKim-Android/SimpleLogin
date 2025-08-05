@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SimpleLogin</string>
+
+    <string name="kakao_native_app_key">821cb821d1ae2781c9839f9e390421f7</string>
 </resources>
