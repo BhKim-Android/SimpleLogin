@@ -6,12 +6,13 @@ plugins {
 android {
     namespace = "com.kimbh.sdk_auth"
 
-    buildFeatures {
-        buildConfig = true
+    defaultConfig {
+        // IDE 경고를 없애기 위한 임시 값입니다.
+        manifestPlaceholders["kakao_native_app_key"] = ""
     }
 
-    defaultConfig {
-        buildConfigField("String", "KAKAO_NATIVE_APP_KEY", "\"your_kakao_native_key_here\"")
+    buildFeatures {
+        buildConfig = true
     }
 }
 
