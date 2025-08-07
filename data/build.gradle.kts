@@ -5,4 +5,7 @@ plugins {
 
 dependencies {
     implementation(project(":domain"))
+    implementation(project(":sdk-auth"))
+
+    implementation(project(":core"))
 }
