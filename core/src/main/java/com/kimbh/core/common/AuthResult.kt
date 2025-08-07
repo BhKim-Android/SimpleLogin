@@ -1,4 +1,4 @@
-package com.kimbh.simplelogin.domain.common
+package com.kimbh.core.common
 
 sealed class AuthResult<out T> {
     data class Success<T>(val data: T) : AuthResult<T>()

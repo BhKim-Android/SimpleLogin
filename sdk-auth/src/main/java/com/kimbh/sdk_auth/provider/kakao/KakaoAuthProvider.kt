@@ -2,16 +2,14 @@ package com.kimbh.sdk_auth.provider.kakao
 
 import android.content.Context
 import android.util.Log
-import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.kimbh.core.common.AuthResult
 import com.kimbh.sdk_auth.model.KakaoResponse
 import com.kimbh.sdk_auth.provider.AuthProvider
-import com.kimbh.simplelogin.domain.common.AuthResult
-import com.kimbh.simplelogin.domain.model.AuthDTO
 
-class KakaoAuthProvider : AuthProvider {
+class KakaoAuthProvider(private val context: Context) : AuthProvider {
 
     // 카카오계정으로 로그인 공통 callback 구성
     // 카카오톡으로 로그인 할 수 없어 카카오계정으로 로그인할 경우 사용됨
@@ -26,14 +24,13 @@ class KakaoAuthProvider : AuthProvider {
 //    }
 
     override fun login(
-        context: Context,
-        callback1: (AuthResult<KakaoResponse>) -> Unit
+        callback: (AuthResult<KakaoResponse>) -> Unit
     ) {
         // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(context)) {
             UserApiClient.instance.loginWithKakaoTalk(context) { token, error ->
                 if (error != null) {
-                    Log.e(TAG, "카카오톡으로 로그인 실패", error)
+                    Log.e("TAG", "카카오톡으로 로그인 실패", error)
 
                     // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
                     // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
@@ -52,7 +49,7 @@ class KakaoAuthProvider : AuthProvider {
                         }
                     })
                 } else if (token != null) {
-                    Log.i(TAG, "카카오톡으로 로그인 성공 ${token.accessToken}")
+                    Log.i("TAG", "카카오톡으로 로그인 성공 ${token.accessToken}")
                 }
             }
         } else {
