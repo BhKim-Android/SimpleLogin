@@ -4,5 +4,5 @@ import com.kimbh.core.common.AuthResult
 import com.kimbh.simplelogin.domain.model.Auth
 
 interface AuthRepository {
-    fun login(): AuthResult<Auth>
+    fun login(callback: (AuthResult<Auth>) -> Unit)
 }

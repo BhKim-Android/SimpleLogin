@@ -10,8 +10,24 @@ class AuthRepositoryImpl @Inject constructor(
     private val kakaoAuthProvider: KakaoAuthProvider
 ) : AuthRepository {
 
-    override fun login(): AuthResult<Auth> {
+    override fun login(callback: (AuthResult<Auth>) -> Unit) {
+        kakaoAuthProvider.login { kakaoResult ->
+            when (kakaoResult) {
+                is AuthResult.Success -> {
+                    val domainAuth = mapToDomain(kakaoResult.data)
+                    callback(AuthResult.Success(domainAuth))
+                }
 
+                is AuthResult.Failure -> {
+                    callback(AuthResult.Failure(kakaoResult.error))
+                }
+            }
+        }
+    }
+
+    private fun mapToDomain(kakaoResponse: KakaoResponse): Auth {
+        // KakaoResponse → Auth 변환 로직 작성
+        return Auth(/*...*/)
     }
 
 }
