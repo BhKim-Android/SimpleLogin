@@ -1,8 +1,12 @@
 package com.kimbh.sdk_auth.model
 
-import com.kakao.sdk.auth.model.OAuthToken
+import java.util.Date
 
 data class KakaoResponse(
-    val oAuthToken: OAuthToken,
-
+    val accessToken: String,
+    val accessTokenExpiresAt: Date,
+    val refreshToken: String,
+    val refreshTokenExpiresAt: Date,
+    val idToken: String? = null,
+    val scopes: List<String>? = null
 )
