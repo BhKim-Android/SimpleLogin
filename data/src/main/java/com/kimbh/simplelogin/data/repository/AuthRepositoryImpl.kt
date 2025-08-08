@@ -1,6 +1,7 @@
 package com.kimbh.simplelogin.data.repository
 
 import com.kimbh.core.common.AuthResult
+import com.kimbh.sdk_auth.model.KakaoResponse
 import com.kimbh.sdk_auth.provider.kakao.KakaoAuthProvider
 import com.kimbh.simplelogin.domain.model.Auth
 import com.kimbh.simplelogin.domain.repository.AuthRepository
@@ -18,16 +19,14 @@ class AuthRepositoryImpl @Inject constructor(
                     callback(AuthResult.Success(domainAuth))
                 }
 
-                is AuthResult.Failure -> {
-                    callback(AuthResult.Failure(kakaoResult.error))
+                is AuthResult.Error -> {
+                    callback(AuthResult.Error(kakaoResult.exception))
                 }
             }
         }
     }
 
-    private fun mapToDomain(kakaoResponse: KakaoResponse): Auth {
-        // KakaoResponse → Auth 변환 로직 작성
-        return Auth(/*...*/)
-    }
+    private fun mapToDomain(kakaoResponse: KakaoResponse): Auth =
+        Auth(token = kakaoResponse.accessToken)
 
 }
