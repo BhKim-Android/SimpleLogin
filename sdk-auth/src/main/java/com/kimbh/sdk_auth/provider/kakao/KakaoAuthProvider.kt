@@ -1,7 +1,7 @@
 package com.kimbh.sdk_auth.provider.kakao
 
 import android.content.Context
-import android.util.Log
+import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
@@ -29,17 +29,19 @@ class KakaoAuthProvider(private val context: Context) : AuthProvider {
                     }
 
                     // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
-                    UserApiClient.instance.loginWithKakaoAccount(context, callback = { token, error ->
-                        if (error != null) {
-                            callback(AuthResult.Error(error))
-                        } else if (token != null) {
-                            callback(AuthResult.Success(data = KakaoResponse(oAuthToken = token)))
-                        } else {
-                            callback(AuthResult.Error(Throwable("Unknown Error")))
-                        }
-                    })
+                    UserApiClient.instance.loginWithKakaoAccount(
+                        context,
+                        callback = { token, error ->
+                            if (error != null) {
+                                callback(AuthResult.Error(error))
+                            } else if (token != null) {
+                                callback(AuthResult.Success(data = mapToKakaoResponse(token)))
+                            } else {
+                                callback(AuthResult.Error(Throwable("Unknown Error")))
+                            }
+                        })
                 } else if (token != null) {
-                    callback(AuthResult.Success(data = KakaoResponse(oAuthToken = token)))
+                    callback(AuthResult.Success(data = mapToKakaoResponse(token)))
                 }
             }
         } else {
@@ -47,11 +49,21 @@ class KakaoAuthProvider(private val context: Context) : AuthProvider {
                 if (error != null) {
                     callback(AuthResult.Error(error))
                 } else if (token != null) {
-                    callback(AuthResult.Success(data = KakaoResponse(oAuthToken = token)))
+                    callback(AuthResult.Success(data = mapToKakaoResponse(token)))
                 } else {
                     callback(AuthResult.Error(Throwable("Unknown Error")))
                 }
             })
         }
     }
+
+    private fun mapToKakaoResponse(token: OAuthToken): KakaoResponse =
+        KakaoResponse(
+            accessToken = token.accessToken,
+            accessTokenExpiresAt = token.accessTokenExpiresAt,
+            refreshToken = token.refreshToken,
+            refreshTokenExpiresAt = token.refreshTokenExpiresAt,
+            idToken = token.idToken,
+            scopes = token.scopes
+        )
 }
