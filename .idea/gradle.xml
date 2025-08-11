@@ -31,7 +31,6 @@
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/feature-auth" />
             <option value="$PROJECT_DIR$/sdk-auth" />
-            <option value="$PROJECT_DIR$/ui-auth" />
           </set>
         </option>
       </GradleProjectSettings>
