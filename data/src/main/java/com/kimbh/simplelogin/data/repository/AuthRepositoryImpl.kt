@@ -11,22 +11,20 @@ class AuthRepositoryImpl @Inject constructor(
     private val kakaoAuthProvider: KakaoAuthProvider
 ) : AuthRepository {
 
-    override fun login(callback: (AuthResult<Auth>) -> Unit) {
-        kakaoAuthProvider.login { kakaoResult ->
-            when (kakaoResult) {
-                is AuthResult.Success -> {
-                    val domainAuth = mapToDomain(kakaoResult.data)
-                    callback(AuthResult.Success(domainAuth))
-                }
-
-                is AuthResult.Error -> {
-                    callback(AuthResult.Error(kakaoResult.exception))
-                }
-            }
+    override suspend fun login(): AuthResult<Auth> =
+        try {
+            AuthResult.Success(data = mapToAuth(kakaoAuthProvider.login()))
+        } catch (e: Exception) {
+            AuthResult.Error(exception = e)
         }
-    }
 
-    private fun mapToDomain(kakaoResponse: KakaoResponse): Auth =
-        Auth(token = kakaoResponse.accessToken)
-
+    private fun mapToAuth(kakaoResponse: KakaoResponse): Auth =
+        Auth(
+            accessToken = kakaoResponse.accessToken,
+            accessTokenExpiresAt = kakaoResponse.accessTokenExpiresAt,
+            refreshToken = kakaoResponse.refreshToken,
+            refreshTokenExpiresAt = kakaoResponse.refreshTokenExpiresAt,
+            idToken = kakaoResponse.idToken,
+            scopes = kakaoResponse.scopes
+        )
 }
