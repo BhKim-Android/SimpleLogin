@@ -23,9 +23,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "SimpleLogin"
 include(":app")
-include(":core-android")
-include(":data")
-include(":domain")
-include(":feature-auth")
-include(":sdk-auth")
-include(":core")
+include(":simple-login-sdk")
+include(":simple-login-sdk:domain")
+include(":simple-login-sdk:data")
+include(":simple-login-sdk:auth-kakao")
+include(":simple-login-sdk:core")

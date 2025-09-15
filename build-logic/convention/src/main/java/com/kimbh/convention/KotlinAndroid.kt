@@ -24,29 +24,38 @@ internal fun Project.configureApplication() {
             localeFilters += listOf("en", "ko")
         }
 
-        signingConfigs {
-            getByName("debug") {
-                storeFile = project.rootProject.file("debug.keystore")
-                storePassword = "android"
-                keyAlias = "androiddebugkey"
-                keyPassword = "android"
-            }
-        }
-
+//        signingConfigs {
+//            getByName("debug") {
+//                storeFile = project.rootProject.file("debug.keystore")
+//                storePassword = "android"
+//                keyAlias = "androiddebugkey"
+//                keyPassword = "android"
+//            }
+//        }
+//
+//        buildTypes {
+//            debug {
+//                signingConfig = signingConfigs.getByName("debug")
+//                applicationIdSuffix = ".debug"
+//            }
+//
+//            release {
+//                postprocessing {
+//                    isRemoveUnusedCode = true
+//                    isRemoveUnusedResources = true
+//                    isOptimizeCode = true
+//                    isObfuscate = true
+//                    proguardFile("proguard-rules.pro")
+//                }
+//            }
+//        }
         buildTypes {
-            debug {
-                signingConfig = signingConfigs.getByName("debug")
-                applicationIdSuffix = ".debug"
-            }
-
             release {
-                postprocessing {
-                    isRemoveUnusedCode = true
-                    isRemoveUnusedResources = true
-                    isOptimizeCode = true
-                    isObfuscate = true
-                    proguardFile("proguard-rules.pro")
-                }
+                isMinifyEnabled = false
+                proguardFiles(
+                    getDefaultProguardFile("proguard-android-optimize.txt"),
+                    "proguard-rules.pro"
+                )
             }
         }
     }
