@@ -26,7 +26,10 @@
             <option value="$PROJECT_DIR$/build-logic" />
             <option value="$PROJECT_DIR$/build-logic/convention" />
             <option value="$PROJECT_DIR$/simple-login-sdk" />
+            <option value="$PROJECT_DIR$/simple-login-sdk/auth-facebook" />
+            <option value="$PROJECT_DIR$/simple-login-sdk/auth-google" />
             <option value="$PROJECT_DIR$/simple-login-sdk/auth-kakao" />
+            <option value="$PROJECT_DIR$/simple-login-sdk/auth-naver" />
             <option value="$PROJECT_DIR$/simple-login-sdk/core" />
             <option value="$PROJECT_DIR$/simple-login-sdk/data" />
             <option value="$PROJECT_DIR$/simple-login-sdk/domain" />
