@@ -9,6 +9,12 @@ plugins {
 android {
     namespace = "com.kimbh.simplelogin"
 
+    packaging {
+        resources {
+            excludes += "META-INF/gradle/incremental.annotation.processors"
+        }
+    }
+
     defaultConfig {
         applicationId = "com.kimbh.simplelogin"
         versionCode = 1
@@ -30,6 +36,7 @@ android {
 
 dependencies {
     implementation(project(":simple-login-sdk"))
+    implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
