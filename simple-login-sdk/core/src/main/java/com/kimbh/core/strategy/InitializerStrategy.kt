@@ -1,4 +1,4 @@
-package com.kimbh.simple_login_sdk.strategy
+package com.kimbh.core.strategy
 
 import android.content.Context
 import com.kimbh.core.utils.AuthType
