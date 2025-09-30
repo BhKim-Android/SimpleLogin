@@ -8,7 +8,6 @@ android {
 }
 
 dependencies {
-    implementation(project(":simple-login-sdk"))
     implementation(project(":simple-login-sdk:core"))
     implementation(project(":simple-login-sdk:data"))
 
