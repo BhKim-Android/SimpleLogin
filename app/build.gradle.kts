@@ -22,15 +22,28 @@ android {
 
         // 카카오 네이티브 앱 키를 변수에 저장하여 재사용
         val kakaoNativeAppKey = "821cb821d1ae2781c9839f9e390421f7"
+        // Facebook..
+        val facebookAppId = "123456789"
+        val facebookClientToken = "56789"
+        val fbLoginScheme = "fb123456789"
+
         // [Kakao SDK 설정]
         // SDK 초기화 및 Manifest Placeholder에 사용될 네이티브 앱 키를 정의합니다.
         // resValue: 앱 리소스에 문자열 값으로 저장합니다. (필요에 따라 활용)
         resValue("string", "kakao_native_app_key", kakaoNativeAppKey)
+        // Facebook
+        resValue("string", "facebook_app_id", facebookAppId)
+        resValue("string", "facebook_client_token", facebookClientToken)
+        resValue("string", "fb_login_protocol_scheme", fbLoginScheme)
 
         // manifestPlaceholders: 하위 모듈(sdk-auth)의 AndroidManifest.xml에서
         // `${kakao_native_app_key}` 변수를 이 값으로 대체하도록 설정합니다.
         // 이를 통해 앱 키를 한 곳에서만 관리하고, 여러 모듈에서 재사용할 수 있습니다.
         manifestPlaceholders["kakao_native_app_key"] = kakaoNativeAppKey
+        // Facebook
+        manifestPlaceholders["FACEBOOK_APP_ID"] = facebookAppId
+        manifestPlaceholders["FACEBOOK_CLIENT_TOKEN"] = facebookClientToken
+        manifestPlaceholders["FB_LOGIN_PROTOCOL"] = fbLoginScheme
     }
 }
 

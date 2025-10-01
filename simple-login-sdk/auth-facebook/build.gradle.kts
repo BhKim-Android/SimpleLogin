@@ -11,6 +11,8 @@ dependencies {
     implementation(project(":simple-login-sdk:core"))
     implementation(project(":simple-login-sdk:data"))
 
+    implementation("com.facebook.android:facebook-login:latest.release")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
