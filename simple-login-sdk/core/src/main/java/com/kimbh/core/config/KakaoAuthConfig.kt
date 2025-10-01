@@ -1,4 +1,4 @@
-package com.kimbh.auth_kakao.config
+package com.kimbh.core.config
 
 import com.kimbh.core.utils.PlatformConfig
 
