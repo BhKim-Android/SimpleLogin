@@ -2,7 +2,7 @@ package com.kimbh.auth_kakao.strategy
 
 import android.content.Context
 import com.kakao.sdk.common.KakaoSdk
-import com.kimbh.auth_kakao.config.KakaoAuthConfig
+import com.kimbh.core.config.KakaoAuthConfig
 import com.kimbh.core.utils.AuthType
 import com.kimbh.core.strategy.InitializerStrategy
 import com.kimbh.core.utils.PlatformConfig
