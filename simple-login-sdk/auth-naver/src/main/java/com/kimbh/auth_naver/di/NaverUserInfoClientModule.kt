@@ -1,6 +1,6 @@
-package com.kimbh.auth_kakao.di
+package com.kimbh.auth_naver.di
 
-import com.kimbh.auth_kakao.client.KakaoUserInfoClientImpl
+import com.kimbh.auth_naver.client.NaverUserInfoClient
 import com.kimbh.data.client.UserInfoClient
 import dagger.Module
 import dagger.Provides
@@ -11,11 +11,11 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object UserInfoClientModule {
-    @Provides
+object NaverUserInfoClientModule {
     @Singleton
+    @Provides
     @IntoSet
-    fun provideKakaoUserInfoClient(): UserInfoClient {
-        return KakaoUserInfoClientImpl()
+    fun provideNaverUserInfoClient(): UserInfoClient {
+        return NaverUserInfoClient()
     }
 }

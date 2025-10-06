@@ -1,7 +1,7 @@
 package com.kimbh.auth_kakao.di
 
 import android.content.Context
-import com.kimbh.auth_kakao.client.KakaoLoginClientImpl
+import com.kimbh.auth_kakao.client.KakaoLoginClient
 import com.kimbh.data.client.LoginClient
 import dagger.Module
 import dagger.Provides
@@ -12,13 +12,13 @@ import dagger.multibindings.IntoSet
 
 @Module
 @InstallIn(SingletonComponent::class)
-object LoginClientModule {
+object KakaoLoginClientModule {
 
     @Provides
     @IntoSet
     fun provideKakaoLoginClient(
         @ApplicationContext context: Context
     ): LoginClient {
-        return KakaoLoginClientImpl(context)
+        return KakaoLoginClient(context)
     }
 }

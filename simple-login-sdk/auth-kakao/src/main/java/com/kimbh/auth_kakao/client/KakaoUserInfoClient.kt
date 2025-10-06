@@ -11,7 +11,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
-class KakaoUserInfoClientImpl @Inject constructor() : UserInfoClient {
+class KakaoUserInfoClient @Inject constructor() : UserInfoClient {
     override val authType: AuthType
         get() = AuthType.KAKAO
 
@@ -19,7 +19,7 @@ class KakaoUserInfoClientImpl @Inject constructor() : UserInfoClient {
         val user = getUser()
         val id = user.id ?: throw IllegalStateException("Kakao user id is null")
         UserInfoDto(
-            id = id,
+            id = id.toString(),
             email = user.kakaoAccount?.email,
             nickName = user.kakaoAccount?.profile?.nickname,
             profileImage = user.kakaoAccount?.profile?.profileImageUrl,

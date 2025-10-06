@@ -1,5 +1,6 @@
 package com.kimbh.simple_login_sdk
 
+import android.app.Activity
 import android.content.Context
 import android.util.Log
 import com.kimbh.core.utils.AuthConfig

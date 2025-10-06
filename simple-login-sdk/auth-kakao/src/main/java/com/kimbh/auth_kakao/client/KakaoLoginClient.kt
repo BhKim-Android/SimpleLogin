@@ -13,7 +13,7 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
-class KakaoLoginClientImpl @Inject constructor(
+class KakaoLoginClient @Inject constructor(
     @param:ApplicationContext val context: Context
 ) : LoginClient {
     override val authType: AuthType
