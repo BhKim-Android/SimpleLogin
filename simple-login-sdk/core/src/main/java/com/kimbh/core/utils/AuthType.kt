@@ -1,5 +1,5 @@
 package com.kimbh.core.utils
 
 enum class AuthType {
-    KAKAO, NAVER, GOOGLE
+    KAKAO, NAVER, FACEBOOK, GOOGLE
 }

@@ -6,6 +6,7 @@ import android.util.Log
 import com.kimbh.core.utils.AuthConfig
 import com.kimbh.core.utils.AuthType
 import com.kimbh.domain.model.TokenInfo
+import com.kimbh.simple_login_sdk.SdkContextHolder
 import com.kimbh.simple_login_sdk.di.AuthManagerEntryPoint
 import com.kimbh.simple_login_sdk.facade.SdkInitializer
 import com.kimbh.simple_login_sdk.model.SdkTokenInfo
@@ -18,7 +19,7 @@ object AuthManager {
     @Volatile
     private var sdkInitializer: SdkInitializer? = null
     private val initializedPlatforms = mutableSetOf<AuthType>()
-    private lateinit var appContext: Context
+//    private lateinit var appContext: Context
 
     /**
      * @param context : 앱의 초기화를 할때 필요한 context (Application Context)
@@ -29,7 +30,7 @@ object AuthManager {
         context: Context,
         authConfig: AuthConfig
     ) {
-        appContext = context.applicationContext
+        SdkContextHolder.initialize(context.applicationContext)
         initializedPlatforms.addAll(
             getSdkInitializer(context).initialize(context = context, authConfig = authConfig)
         )
@@ -96,14 +97,10 @@ object AuthManager {
     }
 
     private fun getEntryPoint(authType: AuthType): Result<AuthManagerEntryPoint> {
-        if (!::appContext.isInitialized) {
-            return Result.failure(IllegalStateException("${authType.name} is not initialized"))
-        }
-
         return try {
             Result.success(
                 EntryPointAccessors.fromApplication(
-                    context = appContext,
+                    context = SdkContextHolder.getApplicationContext(),
                     entryPoint = AuthManagerEntryPoint::class.java
                 )
             )
