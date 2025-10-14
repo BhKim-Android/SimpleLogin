@@ -1,6 +1,7 @@
 package com.kimbh.simplelogin.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -19,15 +20,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.lifecycleScope
 import com.kimbh.core.utils.AuthType
+import com.kimbh.simple_login_sdk.AuthFacebookManager
 import com.kimbh.simplelogin.ui.theme.SimpleLoginTheme
 import com.kimbh.simplelogin.ui.viewmodel.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            val result = AuthFacebookManager.login(this@MainActivity)
+            result.onSuccess {
+                Log.d("Facebook_bh", "$it")
+            }.onFailure {
+                Log.e("Facebook_bh", "$it")
+            }
+        }
         enableEdgeToEdge()
         setContent {
             SimpleLoginTheme {

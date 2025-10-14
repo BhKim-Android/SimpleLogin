@@ -23,8 +23,8 @@ android {
         // 카카오 네이티브 앱 키를 변수에 저장하여 재사용
         val kakaoNativeAppKey = "821cb821d1ae2781c9839f9e390421f7"
         // Facebook..
-        val facebookAppId = "123456789"
-        val facebookClientToken = "56789"
+        val facebookAppId = "2200975527076275"
+        val facebookClientToken = "9cd4352ab1dfe183943a08480079f88d"
         val fbLoginScheme = "fb123456789"
 
         // [Kakao SDK 설정]
