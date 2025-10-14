@@ -3,7 +3,7 @@ package com.kimbh.domain.model
 import com.kimbh.core.model.UserInfoGender
 
 data class UserInfo(
-    val id: Long,
+    val id: String,
     val email: String?,
     val nickName: String?,
     val profileImage: String?,
