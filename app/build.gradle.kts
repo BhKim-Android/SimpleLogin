@@ -4,6 +4,7 @@ plugins {
     id("kimbh.android.hilt")
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -49,7 +50,9 @@ android {
 
 dependencies {
     implementation(project(":simple-login-sdk"))
+    implementation(libs.kotlin.serialization)
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
+    implementation("androidx.navigation:navigation-compose:2.9.5")
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
