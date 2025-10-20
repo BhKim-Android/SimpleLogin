@@ -1,6 +1,7 @@
 package com.kimbh.simple_login_sdk
 
 import android.app.Activity
+import com.kimbh.core.utils.AuthType
 import com.kimbh.simple_login_sdk.di.FacebookLoginEntryPoint
 import com.kimbh.simple_login_sdk.di.FacebookManagerEntryPoint
 import com.kimbh.simple_login_sdk.model.SdkTokenInfo
@@ -16,7 +17,11 @@ object AuthFacebookManager {
                 entryPoint = FacebookLoginEntryPoint::class.java
             )
             entryPoint.getLoginUsecase().invoke().map { tokenInfo ->
-                SdkTokenInfo(accessToken = tokenInfo.accessToken, newToken = tokenInfo.newToken)
+                SdkTokenInfo(
+                    authType = AuthType.FACEBOOK,
+                    accessToken = tokenInfo.accessToken,
+                    newToken = tokenInfo.newToken
+                )
             }
         } catch (e: Exception) {
             Result.failure(e)
@@ -31,6 +36,7 @@ object AuthFacebookManager {
             )
             entryPoint.getUserInfoUsecase().invoke().map { userInfo ->
                 SdkUserInfo(
+                    authType = AuthType.FACEBOOK,
                     id = userInfo.id,
                     email = userInfo.email,
                     nickName = userInfo.nickName,

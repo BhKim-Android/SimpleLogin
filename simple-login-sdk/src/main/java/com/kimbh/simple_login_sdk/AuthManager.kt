@@ -64,7 +64,11 @@ object AuthManager {
             onSuccess = { entryPoint ->
                 try {
                     entryPoint.getLoginHandler().login(authType).map {
-                        SdkTokenInfo(accessToken = it.accessToken, newToken = it.newToken)
+                        SdkTokenInfo(
+                            authType = authType,
+                            accessToken = it.accessToken,
+                            newToken = it.newToken
+                        )
                     }
                 } catch (e: Exception) {
                     Result.failure(e)
@@ -80,6 +84,7 @@ object AuthManager {
                 try {
                     entryPoint.getUserInfoHandler().getUserInfo(authType = authType).map {
                         SdkUserInfo(
+                            authType = authType,
                             id = it.id,
                             email = it.email,
                             nickName = it.nickName,
