@@ -24,15 +24,11 @@ class NaverLoginClient @Inject constructor(
                     // 네이버 로그인 인증이 성공했을 때 수행할 코드 추가
                     continuation.resume(
                         TokenInfoDto(
+                            authType = authType,
                             accessToken = NaverIdLoginSDK.getAccessToken() ?: "",
                             newToken = NaverIdLoginSDK.getRefreshToken() ?: ""
                         )
                     )
-//                    binding.tvAccessToken.text = NaverIdLoginSDK.getAccessToken()
-//                    binding.tvRefreshToken.text = NaverIdLoginSDK.getRefreshToken()
-//                    binding.tvExpires.text = NaverIdLoginSDK.getExpiresAt().toString()
-//                    binding.tvType.text = NaverIdLoginSDK.getTokenType()
-//                    binding.tvState.text = NaverIdLoginSDK.getState().toString()
                 }
 
                 override fun onFailure(httpStatus: Int, message: String) {

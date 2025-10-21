@@ -68,6 +68,7 @@ class FacebookLoginProcessor @Inject constructor(
                         continuation.resume(
                             Result.success(
                                 TokenInfoDto(
+                                    authType = authType,
                                     accessToken = result.accessToken.token,
                                     newToken = ""
                                 )

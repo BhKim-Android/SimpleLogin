@@ -22,6 +22,7 @@ class KakaoLoginClient @Inject constructor(
     override suspend fun login(): Result<TokenInfoDto> = runCatching {
         val token = loginWithKakao()
         TokenInfoDto(
+            authType = authType,
             accessToken = token.accessToken,
             newToken = token.refreshToken
         )
