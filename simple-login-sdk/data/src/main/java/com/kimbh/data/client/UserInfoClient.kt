@@ -5,5 +5,5 @@ import com.kimbh.data.model.UserInfoDto
 
 interface UserInfoClient {
     val authType: AuthType
-    suspend fun getUserInfo(): Result<UserInfoDto>
+    suspend fun getUserInfo(token: String): Result<UserInfoDto>
 }

@@ -15,7 +15,7 @@ class KakaoUserInfoClient @Inject constructor() : UserInfoClient {
     override val authType: AuthType
         get() = AuthType.KAKAO
 
-    override suspend fun getUserInfo(): Result<UserInfoDto> = runCatching {
+    override suspend fun getUserInfo(token: String): Result<UserInfoDto> = runCatching {
         val user = getUser()
         val id = user.id ?: throw IllegalStateException("Kakao user id is null")
         UserInfoDto(

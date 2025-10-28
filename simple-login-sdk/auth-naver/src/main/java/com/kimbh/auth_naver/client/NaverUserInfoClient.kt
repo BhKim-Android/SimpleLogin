@@ -16,7 +16,7 @@ class NaverUserInfoClient @Inject constructor() : UserInfoClient {
     override val authType: AuthType
         get() = AuthType.NAVER
 
-    override suspend fun getUserInfo(): Result<UserInfoDto> = runCatching {
+    override suspend fun getUserInfo(token: String): Result<UserInfoDto> = runCatching {
         suspendCancellableCoroutine { continuation ->
             val nidProfileCallback = object : NidProfileCallback<NidProfileResponse> {
                 override fun onSuccess(result: NidProfileResponse) {
