@@ -1,15 +1,13 @@
 # Simple Login SDK
 
-Android 앱을 위한 간편한 통합 소셜 로그인 SDK입니다.  
-카카오, 네이버, 구글, 페이스북 로그인을 하나의 인터페이스로 통합하여 관리할 수 있습니다.
+Android 앱을 위한 간편한 통합 소셜 로그인 SDK입니다. 카카오, 네이버, 구글, 페이스북 로그인을 하나의 인터페이스로 통합하여 관리할 수 있도록 돕습니다.
 
----
 
-## Features
+## ✨ 특징 (Features)
 
-- **통합 API**: `AuthManager`를 통해 여러 소셜 로그인을 일관된 방식으로 호출
-- **간편한 설정**: 각 플랫폼의 앱 키를 `AuthConfig` 객체 하나로 관리
-- **Hilt 지원**: SDK 내부 의존성을 Hilt로 관리하며, 앱 Hilt 그래프와 연동
+- **통합 API**: `AuthManager`를 통해 여러 소셜 로그인을 일관된 방식으로 호출합니다.
+- **간편한 설정**: 각 플랫폼의 앱 키를 `AuthConfig` 객체 하나로 관리합니다.
+- **Hilt 지원**: Hilt를 사용하여 SDK 내부 의존성을 관리하며, 앱의 Hilt 그래프와 연동됩니다.
 
 ### 지원 플랫폼
 
@@ -20,18 +18,17 @@ Android 앱을 위한 간편한 통합 소셜 로그인 SDK입니다.
 
 ---
 
-## Getting Started
+## 🚀 시작하기 (Getting Started)
 
-### 1. Prerequisites
+### 1. 전제 조건 (Prerequisites)
+이 SDK는 Hilt를 사용하여 의존성을 주입합니다. SDK를 사용하는 앱 역시 Hilt를 설정해야 합니다.
 
-- 앱과 SDK 모두 Hilt 설정 필요
-- `@HiltAndroidApp`이 달린 Application 클래스 필요
+- `app/build.gradle.kts`에 Hilt 플러그인 추가
+- `@HiltAndroidApp`어노테이션이 달린 `Application` 클래스
 
----
+### 2. 의존성 설정 (Dependency Setup)
 
-### 2. Dependency Setup
-
-`app/build.gradle.kts`에 SDK 모듈 추가:
+(프로젝트 구조에 따라) `app` 모듈의 `build.gradle.kts` 파일에 SDK 모듈을 추가합니다.
 
 ```kotlin
 dependencies {
@@ -40,12 +37,13 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+    // ...
 }
 ```
 
----
+### 3. Gradle 설정 (app/build.gradle.kts)
 
-### 3. Gradle 설정
+각 소셜 플랫폼(Kakao, Facebook)에서 요구하는 네이티브 앱 키와 설정값을 `app` 모듈의 `build.gradle.kts`에 추가해야 합니다. 이 값들은 SDK 내부의 `AndroidManifest.xml` 파일에서 사용됩니다.
 
 ```kotlin
 android {
@@ -69,9 +67,9 @@ android {
 }
 ```
 
----
+### 4. Application 클래스 설정 (Initialization)
 
-### 4. Application 클래스 설정
+앱이 시작될 때 `Application` 클래스의 `onCreate()` 메소드에서 `AuthManager.initialize`를 호출하여 SDK를 초기화합니다.
 
 ```kotlin
 @HiltAndroidApp
@@ -100,9 +98,13 @@ class SimpleLoginApplication : Application() {
 
 ---
 
-## Usage
+## 🔧 사용 방법 (Usage Guide)
 
 ### 1. 로그인 (Kakao, Naver, Google)
+
+`AuthManager.login()`은 `suspend` 함수이므로 Coroutine 스코프 내에서 호출해야 합니다. (예: `viewModelScope`)
+
+`AuthType`으로 원하는 플랫폼을 지정합니다.
 
 ```kotlin
 @HiltViewModel
@@ -125,9 +127,9 @@ class MainViewModel @Inject constructor() : ViewModel() {
 }
 ```
 
----
+### 2. 페이스북 로그인 (Facebook Login)
 
-### 2. Facebook 로그인
+페이스북 로그인은 `Activity` 컨텍스트가 필요하므로 `AuthManager`가 아닌 `AuthFacebookManager`를 사용해야 합니다.
 
 ```kotlin
 @AndroidEntryPoint
@@ -158,9 +160,9 @@ SocialLoginButton(
 )
 ```
 
----
+### 3. 유저 정보 가져오기 (Get User Info)
 
-### 3. 유저 정보 가져오기
+로그인 성공 후 받은 `SdkTokenInfo` 객체를 사용하여 `AuthManager.getUserInfo()`를 호출합니다.
 
 ```kotlin
 @HiltViewModel
