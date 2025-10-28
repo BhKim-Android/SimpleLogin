@@ -25,7 +25,7 @@ class SimpleLoginApplication : Application() {
                     clientName = "kimbhSimpleLogin"
                 ),
                 AuthType.FACEBOOK to FacebookAuthConfig,
-                AuthType.GOOGLE to GoogleAuthConfig(serverClientId = "")
+                AuthType.GOOGLE to GoogleAuthConfig(serverClientId = "232839025525-9qkgohsasq085ae9l5qp6kgvlfinb9gr.apps.googleusercontent.com")
             )
         )
         AuthManager.initialize(context = this, authConfig = authConfig)

@@ -17,7 +17,6 @@ object UserInfoDestination
 fun UserInfoScreen(
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    viewModel.getUserInfo()
     val userinfoState = viewModel.userInfoState.collectAsState()
 
     when (val state = userinfoState.value) {

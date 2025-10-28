@@ -3,7 +3,6 @@ package com.kimbh.simplelogin.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kimbh.core.utils.AuthType
-import com.kimbh.simple_login_sdk.AuthFacebookManager
 import com.kimbh.simple_login_sdk.AuthManager
 import com.kimbh.simple_login_sdk.model.SdkTokenInfo
 import com.kimbh.simple_login_sdk.model.SdkUserInfo
@@ -32,31 +31,22 @@ class MainViewModel @Inject constructor() : ViewModel() {
         lastAuthType = authType
         AuthManager.login(authType = authType).onSuccess {
             _tokenState.value = UiState.Success(it)
+            getUserInfo(it)
         }.onFailure {
             _tokenState.value = UiState.Error(it.message)
         }
     }
 
-    fun getUserInfo() = viewModelScope.launch {
+    fun getUserInfo(sdkTokenInfo: SdkTokenInfo) = viewModelScope.launch {
         _userInfoState.value = UiState.Loading
-        if (lastAuthType == AuthType.FACEBOOK) {
-            AuthFacebookManager.getUserInfo()
+        lastAuthType?.let { authType ->
+            AuthManager.getUserInfo(authType = authType, sdkTokenInfo = sdkTokenInfo)
                 .onSuccess { sdkUserInfo ->
                     _userInfoState.value = UiState.Success(sdkUserInfo)
                 }
                 .onFailure {
                     _userInfoState.value = UiState.Error(it.message)
                 }
-        } else {
-            lastAuthType?.let { authType ->
-                AuthManager.getUserInfo(authType = authType)
-                    .onSuccess { sdkUserInfo ->
-                        _userInfoState.value = UiState.Success(sdkUserInfo)
-                    }
-                    .onFailure {
-                        _userInfoState.value = UiState.Error(it.message)
-                    }
-            }
         }
     }
 }
