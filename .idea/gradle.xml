@@ -32,6 +32,7 @@
             <option value="$PROJECT_DIR$/simple-login-sdk/auth-naver" />
             <option value="$PROJECT_DIR$/simple-login-sdk/core" />
             <option value="$PROJECT_DIR$/simple-login-sdk/data" />
+            <option value="$PROJECT_DIR$/simple-login-sdk/data-remote" />
             <option value="$PROJECT_DIR$/simple-login-sdk/domain" />
           </set>
         </option>
