@@ -78,11 +78,12 @@ object AuthManager {
         )
     }
 
-    suspend fun getUserInfo(authType: AuthType): Result<SdkUserInfo> {
+    suspend fun getUserInfo(authType: AuthType, sdkTokenInfo: SdkTokenInfo): Result<SdkUserInfo> {
         return getEntryPoint(authType = authType).fold(
             onSuccess = { entryPoint ->
                 try {
-                    entryPoint.getUserInfoHandler().getUserInfo(authType = authType).map {
+                    entryPoint.getUserInfoHandler()
+                        .getUserInfo(authType = authType, token = sdkTokenInfo.accessToken).map {
                         SdkUserInfo(
                             authType = authType,
                             id = it.id,
