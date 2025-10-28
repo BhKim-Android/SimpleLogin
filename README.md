@@ -1,44 +1,209 @@
-# 🚀 SimpleLogin – Android 간편 로그인 예제
+````markdown
+# Simple Login SDK
 
-이 프로젝트는 **안드로이드에서 간편 로그인(OAuth2)** 기능을 구현한 학습용 앱입니다.  
-**Kakao / Google / Naver** 등의 로그인 방식을 통합하고, **MVVM + Clean Architecture + Multi-Module** 구조로 구성되어 있습니다.
+Android 앱을 위한 간편한 통합 소셜 로그인 SDK입니다.  
+카카오, 네이버, 구글, 페이스북 로그인을 하나의 인터페이스로 통합하여 관리할 수 있습니다.
 
 ---
 
-## SDK Appkey 설정.
+## Features
+
+- **통합 API**: `AuthManager`를 통해 여러 소셜 로그인을 일관된 방식으로 호출  
+- **간편한 설정**: 각 플랫폼의 앱 키를 `AuthConfig` 객체 하나로 관리  
+- **Hilt 지원**: SDK 내부 의존성을 Hilt로 관리하며, 앱 Hilt 그래프와 연동
+
+### 지원 플랫폼
+
+- Kakao  
+- Naver  
+- Google  
+- Facebook  
+
+---
+
+## Getting Started
+
+### 1. Prerequisites
+
+- 앱과 SDK 모두 Hilt 설정 필요  
+- `@HiltAndroidApp`이 달린 Application 클래스 필요
+
+---
+
+### 2. Dependency Setup
+
+`app/build.gradle.kts`에 SDK 모듈 추가:
+
+```kotlin
+dependencies {
+    implementation(project(":simple-login-sdk"))
+    
+    // Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+}
+````
+
+---
+
+### 3. Gradle 설정
 
 ```kotlin
 android {
     defaultConfig {
-        resValue "string", "kakao_native_app_key", "여기에_앱의_네이티브_앱_키를_입력하세요"
+        val kakaoNativeAppKey = "YOUR_KAKAO_NATIVE_APP_KEY"
+        resValue("string", "kakao_native_app_key", kakaoNativeAppKey)
+        manifestPlaceholders["kakao_native_app_key"] = kakaoNativeAppKey
+
+        val facebookAppId = "YOUR_FACEBOOK_APP_ID"
+        val facebookClientToken = "YOUR_FACEBOOK_CLIENT_TOKEN"
+        val fbLoginScheme = "fb${facebookAppId}"
+        
+        resValue("string", "facebook_app_id", facebookAppId)
+        resValue("string", "facebook_client_token", facebookClientToken)
+        resValue("string", "fb_login_protocol_scheme", fbLoginScheme)
+        
+        manifestPlaceholders["FACEBOOK_APP_ID"] = facebookAppId
+        manifestPlaceholders["FACEBOOK_CLIENT_TOKEN"] = facebookClientToken
+        manifestPlaceholders["FB_LOGIN_PROTOCOL"] = fbLoginScheme
     }
 }
 ```
 
 ---
 
-## 🧩 주요 기능
+### 4. Application 클래스 설정
 
-- ✅ 카카오, 구글, 네이버 간편 로그인 구현
-- ✅ 사용자 정보 조회 (이름, 이메일 등)
-- ✅ Jetpack Compose UI 기반
-- ✅ 멀티 모듈 구조로 분리 및 유지보수 용이성 확보
-- ✅ 클린 아키텍처 기반의 관심사 분리
-- ✅ 향후 기능 확장 가능 (Apple Login, Firebase Auth 등)
+```kotlin
+@HiltAndroidApp
+class SimpleLoginApplication : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+        
+        val authConfig = AuthConfig(
+            platformConfigs = mapOf(
+                AuthType.KAKAO to KakaoAuthConfig(appkey = "YOUR_KAKAO_NATIVE_APP_KEY"),
+                AuthType.NAVER to NaverAuthConfig(
+                    clientId = "YOUR_NAVER_CLIENT_ID",
+                    clientSecret = "YOUR_NAVER_CLIENT_SECRET",
+                    clientName = "YOUR_NAVER_CLIENT_NAME"
+                ),
+                AuthType.FACEBOOK to FacebookAuthConfig,
+                AuthType.GOOGLE to GoogleAuthConfig(serverClientId = "YOUR_GOOGLE_SERVER_CLIENT_ID")
+            )
+        )
+        
+        AuthManager.initialize(context = this, authConfig = authConfig)
+    }
+}
+```
 
 ---
 
-## 📁 모듈 구조
+## Usage
 
-<pre>SimpleLogin/
-├── app # 앱 진입점 및 네비게이션, DI 설정
-├── core-android # 공통 Android 유틸, 확장 함수, 테마 등
-├── data # 데이터 소스(API, DB 등) 구현
-├── domain # 비즈니스 로직(UseCase, Entity, Repository 인터페이스)
-├── auth-sdk # 간편 로그인 SDK 래핑 모듈 (재사용 라이브러리)
-├── feature-auth # 로그인 화면 상태 관리(ViewModel 등), 비즈니스 흐름
-├── ui-auth # Stateless Compose UI 컴포넌트 (재사용 가능 UI)</pre>
+### 1. 로그인 (Kakao, Naver, Google)
 
+```kotlin
+@HiltViewModel
+class MainViewModel @Inject constructor() : ViewModel() {
 
-## 개발일지 및 공부
-https://www.notion.so/197388df547e80ed902aca2d4fd1662f?v=246388df547e80e6bb93000cdea98cbf
+    private val _tokenState = MutableStateFlow<UiState<SdkTokenInfo>>(UiState.Loading)
+    val tokenState: StateFlow<UiState<SdkTokenInfo>> = _tokenState
+
+    fun onLoginClicked(authType: AuthType) = viewModelScope.launch {
+        _tokenState.value = UiState.Loading
+        
+        AuthManager.login(authType = authType)
+            .onSuccess { sdkTokenInfo ->
+                _tokenState.value = UiState.Success(sdkTokenInfo)
+            }
+            .onFailure { error ->
+                _tokenState.value = UiState.Error(error.message)
+            }
+    }
+}
+```
+
+---
+
+### 2. Facebook 로그인
+
+```kotlin
+@AndroidEntryPoint
+class MainActivity : ComponentActivity() {
+    private val viewModel: MainViewModel by viewModels()
+
+    private fun handleFacebookLogin() {
+        lifecycleScope.launch {
+            viewModel.bindFacebookTokenState(UiState.Loading)
+            
+            val result = AuthFacebookManager.login(this@MainActivity)
+            
+            result.onSuccess { sdkTokenInfo ->
+                viewModel.bindFacebookTokenState(UiState.Success(sdkTokenInfo))
+            }.onFailure { error ->
+                viewModel.bindFacebookTokenState(UiState.Error(error.message))
+            }
+        }
+    }
+}
+```
+
+Compose UI 예시:
+
+```kotlin
+SocialLoginButton(
+    onClick = { facebookLogin() }
+)
+```
+
+---
+
+### 3. 유저 정보 가져오기
+
+```kotlin
+@HiltViewModel
+class MainViewModel @Inject constructor() : ViewModel() {
+    private val _userInfoState = MutableStateFlow<UiState<SdkUserInfo>>(UiState.Loading)
+    val userInfoState: StateFlow<UiState<SdkUserInfo>> = _userInfoState
+
+    private var lastAuthType: AuthType? = null
+
+    fun onLoginClicked(authType: AuthType) = viewModelScope.launch {
+        _tokenState.value = UiState.Loading
+        lastAuthType = authType
+        
+        AuthManager.login(authType = authType)
+            .onSuccess { sdkTokenInfo ->
+                _tokenState.value = UiState.Success(sdkTokenInfo)
+                getUserInfo(sdkTokenInfo)
+            }
+            .onFailure { error ->
+                _tokenState.value = UiState.Error(error.message)
+            }
+    }
+
+    fun getUserInfo(sdkTokenInfo: SdkTokenInfo) = viewModelScope.launch {
+        _userInfoState.value = UiState.Loading
+        lastAuthType?.let { authType ->
+            AuthManager.getUserInfo(authType = authType, sdkTokenInfo = sdkTokenInfo)
+                .onSuccess { sdkUserInfo ->
+                    _userInfoState.value = UiState.Success(sdkUserInfo)
+                }
+                .onFailure { error ->
+                    _userInfoState.value = UiState.Error(error.message)
+                }
+        }
+    }
+}
+```
+
+```
+
+이 버전은 **불필요한 주석이나 설명 제거**, **한 번에 복사 가능**, GitHub `README.md`에 바로 올릴 수 있는 형태입니다.  
+
+원하면 제가 여기에 **테이블 형식으로 지원 플랫폼, Gradle 키 등 요약표까지 넣어서 시각적으로 보기 쉽게** 업그레이드해 드릴 수도 있습니다.  
+그거 만들어 드릴까요?
+```
