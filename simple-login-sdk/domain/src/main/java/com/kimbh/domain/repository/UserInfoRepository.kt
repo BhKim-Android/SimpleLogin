@@ -4,5 +4,5 @@ import com.kimbh.core.utils.AuthType
 import com.kimbh.domain.model.UserInfo
 
 interface UserInfoRepository {
-    suspend fun getUserInfo(authType: AuthType): Result<UserInfo>
+    suspend fun getUserInfo(authType: AuthType, token: String): Result<UserInfo>
 }
