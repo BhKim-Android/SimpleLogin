@@ -1,6 +1,7 @@
 plugins {
     id("kimbh.android.library")
     id("kimbh.android.hilt")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -14,6 +15,8 @@ dependencies {
     implementation("androidx.credentials:credentials:1.6.0-alpha05")
     implementation("androidx.credentials:credentials-play-services-auth:1.6.0-alpha05")
     implementation("com.google.android.libraries.identity.googleid:googleid:<latest version>")
+
+    implementation(libs.kotlin.serialization)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

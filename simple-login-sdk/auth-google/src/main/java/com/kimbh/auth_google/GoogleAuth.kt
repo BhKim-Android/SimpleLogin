@@ -11,7 +11,6 @@ import androidx.credentials.exceptions.GetCredentialException
 import com.google.android.libraries.identity.googleid.GetGoogleIdOption
 import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
 import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
-import kotlinx.coroutines.suspendCancellableCoroutine
 
 object GoogleAuth {
     private lateinit var googleIdOption: GetGoogleIdOption
@@ -25,7 +24,8 @@ object GoogleAuth {
      **/
     fun init(serverClientId: String, nonce: String? = null) {
         googleIdOption = GetGoogleIdOption.Builder()
-            .setFilterByAuthorizedAccounts(true)
+            // 사용된 계정으로 다시 시도.
+            .setFilterByAuthorizedAccounts(false)
             .setServerClientId(serverClientId)
             .setAutoSelectEnabled(true)
             // nonce string to use when generating a Google ID token
