@@ -9,8 +9,8 @@ import javax.inject.Inject
 class UserInfoRepositoryImpl @Inject constructor(
     private val userInfoClient: Set<@JvmSuppressWildcards UserInfoClient>
 ) : UserInfoRepository {
-    override suspend fun getUserInfo(authType: AuthType): Result<UserInfo> {
-        return userInfoClient.find { it.authType == authType }?.getUserInfo()?.map {
+    override suspend fun getUserInfo(authType: AuthType, token: String): Result<UserInfo> {
+        return userInfoClient.find { it.authType == authType }?.getUserInfo(token = token)?.map {
             UserInfo(
                 id = it.id,
                 email = it.email,
