@@ -1,4 +1,3 @@
-````markdown
 # Simple Login SDK
 
 Android 앱을 위한 간편한 통합 소셜 로그인 SDK입니다.  
@@ -8,16 +7,16 @@ Android 앱을 위한 간편한 통합 소셜 로그인 SDK입니다.
 
 ## Features
 
-- **통합 API**: `AuthManager`를 통해 여러 소셜 로그인을 일관된 방식으로 호출  
-- **간편한 설정**: 각 플랫폼의 앱 키를 `AuthConfig` 객체 하나로 관리  
+- **통합 API**: `AuthManager`를 통해 여러 소셜 로그인을 일관된 방식으로 호출
+- **간편한 설정**: 각 플랫폼의 앱 키를 `AuthConfig` 객체 하나로 관리
 - **Hilt 지원**: SDK 내부 의존성을 Hilt로 관리하며, 앱 Hilt 그래프와 연동
 
 ### 지원 플랫폼
 
-- Kakao  
-- Naver  
-- Google  
-- Facebook  
+- Kakao
+- Naver
+- Google
+- Facebook
 
 ---
 
@@ -25,7 +24,7 @@ Android 앱을 위한 간편한 통합 소셜 로그인 SDK입니다.
 
 ### 1. Prerequisites
 
-- 앱과 SDK 모두 Hilt 설정 필요  
+- 앱과 SDK 모두 Hilt 설정 필요
 - `@HiltAndroidApp`이 달린 Application 클래스 필요
 
 ---
@@ -42,7 +41,7 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
 }
-````
+```
 
 ---
 
@@ -198,12 +197,4 @@ class MainViewModel @Inject constructor() : ViewModel() {
         }
     }
 }
-```
-
-```
-
-이 버전은 **불필요한 주석이나 설명 제거**, **한 번에 복사 가능**, GitHub `README.md`에 바로 올릴 수 있는 형태입니다.  
-
-원하면 제가 여기에 **테이블 형식으로 지원 플랫폼, Gradle 키 등 요약표까지 넣어서 시각적으로 보기 쉽게** 업그레이드해 드릴 수도 있습니다.  
-그거 만들어 드릴까요?
 ```
