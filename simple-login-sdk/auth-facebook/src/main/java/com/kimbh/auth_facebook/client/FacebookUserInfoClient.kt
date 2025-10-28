@@ -16,7 +16,7 @@ class FacebookUserInfoClient @Inject constructor() : UserInfoClient {
     override val authType: AuthType
         get() = AuthType.FACEBOOK
 
-    override suspend fun getUserInfo(): Result<UserInfoDto> =
+    override suspend fun getUserInfo(token: String): Result<UserInfoDto> =
         suspendCancellableCoroutine { continuation ->
             AccessToken.getCurrentAccessToken()
             GraphRequest.newMeRequest(
