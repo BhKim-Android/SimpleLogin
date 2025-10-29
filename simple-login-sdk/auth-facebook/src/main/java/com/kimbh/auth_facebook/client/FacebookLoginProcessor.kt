@@ -1,6 +1,5 @@
 package com.kimbh.auth_facebook.client
 
-import android.app.Activity
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -11,6 +10,8 @@ import com.facebook.FacebookException
 import com.facebook.FacebookSdk
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import com.kimbh.core.exception.LoginException
+import com.kimbh.core.exception.OperationCancelledException
 import com.kimbh.core.utils.AuthType
 import com.kimbh.data.client.LoginClient
 import com.kimbh.data.model.TokenInfoDto
@@ -18,7 +19,6 @@ import dagger.hilt.android.scopes.ActivityScoped
 import kotlinx.coroutines.CancellableContinuation
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
-import kotlin.coroutines.cancellation.CancellationException
 import kotlin.coroutines.resume
 
 @ActivityScoped
@@ -55,12 +55,26 @@ class FacebookLoginProcessor @Inject constructor(
                 callbackManager = callbackManager,
                 object : FacebookCallback<LoginResult> {
                     override fun onCancel() {
-                        continuation.resume(Result.failure(CancellationException("Facebook login canceled.")))
+                        continuation.resume(
+                            value = Result.failure(
+                                exception = OperationCancelledException(
+                                    platform = AuthType.FACEBOOK
+                                )
+                            )
+                        )
                         cleanup()
                     }
 
                     override fun onError(error: FacebookException) {
-                        continuation.resume(Result.failure(error))
+                        continuation.resume(
+                            value = Result.failure(
+                                exception = LoginException(
+                                    platform = AuthType.FACEBOOK,
+                                    message = "Facebook login error.",
+                                    cause = error
+                                )
+                            )
+                        )
                         cleanup()
                     }
 
@@ -83,7 +97,6 @@ class FacebookLoginProcessor @Inject constructor(
         }
 
     private fun cleanup() {
-//        activity.lifecycle.removeObserver(this)
         loginContinuation = null
     }
 }
